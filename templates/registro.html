@@ -11,7 +11,7 @@
             {% if messages %}
                 <ul class="flash-messages">
                     {% for message in messages %}
-                        <li>{{ message }}</li>
+                        <li class="{{ message.category }}">{{ message }}</li>
                     {% endfor %}
                 </ul>
             {% endif %}
@@ -19,8 +19,13 @@
         <form method="POST">
             <label for="username">Nome de Usuário</label>
             <input type="text" name="username" required>
+        
+            <label for="email">E-mail</label>
+            <input type="email" name="email" required>
+        
             <label for="password">Senha</label>
             <input type="password" name="password" required>
+        
             <button type="submit" class="btn">Registrar</button>
         </form>
         <p>Já tem uma conta? <a href="{{ url_for('login') }}">Faça o login</a></p>

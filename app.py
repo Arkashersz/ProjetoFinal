@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, session
-import mysql.connector
 import pymysql
 
 app = Flask(__name__)
@@ -9,7 +8,7 @@ app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
 db6_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'root',
+    'password': 'admin',
     'database': 'comidaria',
     'port': 3306
 }
@@ -18,12 +17,20 @@ db6_config = {
 
 db6 = pymysql.connect(**db6_config)
 
-def verificar_username(username):
+def verificar_user(username):
     cursor = db6.cursor()
     cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
     user = cursor.fetchone()
     cursor.close()
     return user is not None
+
+def verificar_email(email):
+    cursor = db6.cursor()
+    cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+    user = cursor.fetchone()
+    cursor.close()
+    return user is not None
+
 
 @app.route('/')
 def pag_inicial():
@@ -34,13 +41,18 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        email = request.form['email']
 
-        if verificar_username(username):
+        if verificar_user(username):
             flash('Nome de usuário já está em uso. Por favor, escolha outro.', 'danger')
-            return render_template('registro.html')  # Adicionado o render_template aqui para usar o template
+            return render_template('registro.html')  
+        
+        if verificar_email(email):
+            flash('E-mail já está em uso. Por favor, escolha outro.', 'danger')
+            return render_template('registro.html') 
 
         cursor = db6.cursor()
-        cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+        cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, password, email))
         db6.commit()
         cursor.close()
 

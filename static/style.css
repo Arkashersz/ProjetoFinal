@@ -27,6 +27,29 @@ body {
     margin-top: 330px;
 }
 
+.flash-messages {
+    list-style: none;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.flash-messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.flash-messages .success {
+    background-color: #4CAF50;
+    color: #ffffff;
+}
+
+.flash-messages .danger {
+    background-color: #FF5733;
+    color: #ffffff;
+}
+
+
 h2 {
     color: #333;
 }
@@ -74,3 +97,6 @@ a {
 a:hover {
     color: #0056b3;
 }
+
+
+/* Adicione outros estilos conforme necessário */
