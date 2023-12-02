@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+        background-image: url('../static/img/tofu.jpg');
+        background-size: 100%;
+        background-repeat: no-repeat;
+
+}
+
+.container {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 60px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;  
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../static/img/logo_comidaria.png');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 60%;
+    margin-top: 330px;
+}
+
+.flash-messages {
+    list-style: none;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.flash-messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.flash-messages .success {
+    background-color: #4CAF50;
+    color: #ffffff;
+}
+
+.flash-messages .danger {
+    background-color: #FF5733;
+    color: #ffffff;
+}
+
+
+h2 {
+    color: #333;
+}
+
+form {
+    text-align: left;
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn {
+    display: block;
+    margin: 0 auto;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+
+/* Adicione outros estilos conforme necessário */

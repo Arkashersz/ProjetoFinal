@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Receitas</title>
+    <link rel="stylesheet" type="text/css" href="../static/home.css">
+</head>
+<body>
+    <header>
+        <h1>Minhas Receitas</h1>
+    </header>
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="Pesquisar receitas">
+            <button onclick="searchRecipes()">Pesquisar</button>
+        </div>
+        <div class="my-recipes">
+            <h2>Minhas Receitas</h2>
+            <ul id="my-recipes-list">
+                <li>Receita 1</li>
+                <li>Receita 2</li>
+                <li>Receita 3</li>
+            </ul>
+        </div>
+        <div class="search-results">
+            <h2>Resultados da Pesquisa</h2>
+            <ul id="search-results-list">
+                <li>Resultado 1</li>
+                <li>Resultado 2</li>
+                <li>Resultado 3</li>
+            </ul>
+        </div>
+    </div>
+    <div><a href="#" id="logout">Sair da conta</a></div>
+</body>
+<script src="/static/login.js" type="module"></script>
+</html>
