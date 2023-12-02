@@ -38,28 +38,29 @@ def pag_inicial():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    messages = []  # Inicializa uma lista para armazenar mensagens
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
 
         if verificar_user(username):
-            flash('Nome de usuário já está em uso. Por favor, escolha outro.', 'danger')
-            return render_template('registro.html')  
-        
+            messages.append(('danger', 'Nome de usuário já está em uso. Por favor, escolha outro.'))
+
         if verificar_email(email):
-            flash('E-mail já está em uso. Por favor, escolha outro.', 'danger')
-            return render_template('registro.html') 
+            messages.append(('danger', 'E-mail já está em uso. Por favor, escolha outro.'))
 
-        cursor = db6.cursor()
-        cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, password, email))
-        db6.commit()
-        cursor.close()
+        if not messages:
+            cursor = db6.cursor()
+            cursor.execute("INSERT INTO users (username, password, email) VALUES (%s, %s, %s)", (username, password, email))
+            db6.commit()
+            cursor.close()
 
-        flash('Você foi registrado com sucesso!', 'success')
-        return redirect(url_for('login'))
+            messages.append(('success', 'Você foi registrado com sucesso!'))
+            return redirect(url_for('login'))
 
-    return render_template('registro.html')
+    return render_template('registro.html', messages=messages)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

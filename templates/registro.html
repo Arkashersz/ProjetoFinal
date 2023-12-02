@@ -11,11 +11,20 @@
             {% if messages %}
                 <ul class="flash-messages">
                     {% for message in messages %}
-                        <li class="{{ message.category }}">{{ message }}</li>
+                        <li class="{{ message[0] }}">{{ message[1] }}</li>
                     {% endfor %}
                 </ul>
             {% endif %}
         {% endwith %}
+
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for message in messages %}
+                    <li class="{{ message[0] }}">{{ message[1] }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         <form method="POST">
             <label for="username">Nome de Usuário</label>
             <input type="text" name="username" required>
