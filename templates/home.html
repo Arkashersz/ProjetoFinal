@@ -11,28 +11,45 @@
         <h1>Minhas Receitas</h1>
     </header>
     <div class="container">
-        <div class="search-bar">
-            <input type="text" id="search" placeholder="Pesquisar receitas">
-            <button onclick="searchRecipes()">Pesquisar</button>
+        <div class="header-buttons">
+            <button id="post-recipe-btn">
+                <a href="{{ url_for('post_receita') }}">Postar Nova Receita</a>
+            </button>
+            <a href="#" id="logout">Sair da conta</a>
         </div>
         <div class="my-recipes">
             <h2>Minhas Receitas</h2>
             <ul id="my-recipes-list">
-                <li>Receita 1</li>
-                <li>Receita 2</li>
-                <li>Receita 3</li>
+                {% for ingredientes in receita %}
+                    <li>{{ ingredientes[1] }}</li>
+                {% endfor %}
+            </ul>            
+        </div>        
+        <div class="popular-recipes">
+            <h2>Receitas Mais Vistas</h2>
+            <ul id="popular-recipes-list">
+                <li>Receita Popular 1</li>
+                <li>Receita Popular 2</li>
+                <li>Receita Popular 3</li>
             </ul>
         </div>
-        <div class="search-results">
-            <h2>Resultados da Pesquisa</h2>
-            <ul id="search-results-list">
-                <li>Resultado 1</li>
-                <li>Resultado 2</li>
-                <li>Resultado 3</li>
-            </ul>
-        </div>
+        <form id="recipe-form">
+            <input type="hidden" id="recipe-id" name="recipe-id">
+            <label for="recipe-title">Título da Receita</label>
+            <input type="text" id="recipe-title" name="recipe-title" required>
+            
+            <label for="recipe-description">Descrição</label>
+            <textarea id="recipe-description" name="recipe-description" rows="4" required></textarea>
+            
+            <label for="recipe-instructions">Como Preparar</label>
+            <textarea id="recipe-instructions" name="recipe-instructions" rows="6" required></textarea>
+            
+            <button type="button" onclick="saveRecipe()">Salvar Receita</button>
+            <button type="button" onclick="deleteRecipe()">Excluir Receita</button>
+            <button type="button" onclick="cancelEdit()">Cancelar</button>
+        </form>
+        
     </div>
-    <div><a href="#" id="logout">Sair da conta</a></div>
+    <script src="/static/login.js" type="module"></script>
 </body>
-<script src="/static/login.js" type="module"></script>
 </html>

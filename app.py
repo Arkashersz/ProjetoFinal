@@ -84,10 +84,43 @@ def login():
 
 @app.route('/home/<username>', methods=['GET', 'POST'])
 def home(username):
-    print(session.get('username'))
-    if(session.get('username') != username):
-       return render_template('erro.html')
-    return render_template('home.html')
+    if session.get('username') != username:
+        return render_template('erro.html')    
+
+    user_id = session.get('user_id')    
+    
+    cursor = db6.cursor()
+    cursor.execute("SELECT * FROM receitas WHERE user_id = %s", (user_id,))
+    user_receita = cursor.fetchall()
+    cursor.close()
+    
+    print(f"Username: {username}")
+    print(f"User ID: {user_id}")
+    print(f"User Receitas: {user_receita}")
+
+    return render_template('home.html', receita=user_receita)
+
+@app.route('/post_receita', methods=['GET', 'POST'])
+def post_receita():
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        ingredientes = request.form['ingredientes']
+        preparo = request.form['preparo']
+
+        user_id = session.get('user_id')
+        if user_id:
+            cursor = db6.cursor()
+            cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo) VALUES (%s, %s, %s, %s)",
+                           (user_id, titulo, ingredientes, preparo))
+            db6.commit()
+            cursor.close()            
+
+            flash('Receita postada com sucesso!', 'success')
+            return redirect(url_for('home', username=session.get('username')))
+
+    return render_template('post_receita.html')
+
+
 
 if __name__ == '__main__':
     app.run()
