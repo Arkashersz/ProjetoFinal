@@ -26,11 +26,11 @@
             </ul>            
         </div>        
         <div class="popular-recipes">
-            <h2>Receitas Mais Vistas</h2>
+            <h2>Receitas dos Outros Usuários</h2>
             <ul id="popular-recipes-list">
-                <li>Receita Popular 1</li>
-                <li>Receita Popular 2</li>
-                <li>Receita Popular 3</li>
+                {% for receita in outro_user_receita %}
+                    <li>{{ receita[1] }}</li>
+                {% endfor %}
             </ul>
         </div>
         <form id="recipe-form">

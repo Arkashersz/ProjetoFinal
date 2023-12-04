@@ -90,15 +90,21 @@ def home(username):
     user_id = session.get('user_id')    
     
     cursor = db6.cursor()
+    # Select para ver as receitas do usuário que está logado
     cursor.execute("SELECT * FROM receitas WHERE user_id = %s", (user_id,))
     user_receita = cursor.fetchall()
+
+    # Select para ver as receitas de outros usuários da Comidaria
+    cursor.execute("SELECT * FROM receitas WHERE user_id != %s", (user_id,))
+    outro_user_receita = cursor.fetchall()
+
     cursor.close()
     
     print(f"Username: {username}")
     print(f"User ID: {user_id}")
     print(f"User Receitas: {user_receita}")
 
-    return render_template('home.html', receita=user_receita)
+    return render_template('home.html', receita=user_receita, outro_user_receita=outro_user_receita)
 
 @app.route('/post_receita', methods=['GET', 'POST'])
 def post_receita():
