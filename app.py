@@ -8,7 +8,7 @@ app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
 db6_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'admin',
+    'password': 'root',
     'database': 'comidaria',
     'port': 3306
 }
@@ -126,6 +126,29 @@ def post_receita():
 
     return render_template('post_receita.html')
 
+@app.route('/recipe/<int:recipe_id>', methods=['GET'])
+def view_recipe(recipe_id):
+    user_id = session.get('user_id')
+    
+    cursor = db6.cursor()
+    cursor.execute("SELECT * FROM receitas WHERE id = %s", (recipe_id,))
+    recipe = cursor.fetchone()
+    cursor.close()
+    
+    if recipe:
+        return render_template('recipe.html', recipe=recipe, is_owner=(user_id == recipe[0]))
+    else:
+        return render_template('erro.html')
+
+@app.route('/edit_recipe/<int:recipe_id>', methods=['GET', 'POST'])
+def edit_recipe(recipe_id):
+    # Adicione o código para editar a receita aqui
+    pass
+
+@app.route('/delete_recipe/<int:recipe_id>', methods=['POST'])
+def delete_recipe(recipe_id):
+    # Adicione o código para excluir a receita aqui
+    pass
 
 
 if __name__ == '__main__':

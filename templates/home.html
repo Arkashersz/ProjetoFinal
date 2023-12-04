@@ -20,16 +20,17 @@
         <div class="my-recipes">
             <h2>Minhas Receitas</h2>
             <ul id="my-recipes-list">
-                {% for ingredientes in receita %}
-                    <li>{{ ingredientes[1] }}</li>
+                {% for user_receita in receita %}
+                    <li><a href="{{ url_for('view_recipe', recipe_id=user_receita[0]) }}">{{ user_receita[1] }}</a></li>
                 {% endfor %}
             </ul>            
-        </div>        
+        </div>
+            
         <div class="popular-recipes">
             <h2>Receitas dos Outros Usuários</h2>
             <ul id="popular-recipes-list">
                 {% for receita in outro_user_receita %}
-                    <li>{{ receita[1] }}</li>
+                    <li><a href="{{ url_for('view_recipe', recipe_id=receita[0]) }}">{{ receita[1] }}</a></li>
                 {% endfor %}
             </ul>
         </div>
