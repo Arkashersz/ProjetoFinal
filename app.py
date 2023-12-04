@@ -142,13 +142,37 @@ def view_recipe(recipe_id):
 
 @app.route('/edit_recipe/<int:recipe_id>', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
-    # Adicione o código para editar a receita aqui
-    pass
+    cursor = db6.cursor()
+    cursor.execute("SELECT * FROM receitas WHERE user_id=%s", (recipe_id,))
+    recipe = cursor.fetchone()
+    cursor.close()
+
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        ingredientes = request.form['ingredientes']
+        preparo = request.form['preparo']
+
+        cursor = db6.cursor()
+        cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s WHERE user_id=%s",
+                       (titulo, ingredientes, preparo, recipe_id))
+        db6.commit()
+        cursor.close()
+
+        flash('Receita editada com sucesso!', 'success')
+        return redirect(url_for('home', username=session.get('username')))
+
+    return render_template('edit_recipe.html', recipe=recipe)
+
 
 @app.route('/delete_recipe/<int:recipe_id>', methods=['POST'])
 def delete_recipe(recipe_id):
-    # Adicione o código para excluir a receita aqui
-    pass
+    cursor = db6.cursor()
+    cursor.execute("DELETE FROM receitas WHERE user_id=%s", (recipe_id,))
+    db6.commit()
+    cursor.close()
+
+    flash('Receita excluída com sucesso!', 'success')
+    return redirect(url_for('home', username=session.get('username')))
 
 
 if __name__ == '__main__':
