@@ -89,6 +89,8 @@ def home(username):
 
     user_id = session.get('user_id')    
     
+
+    
     cursor = db6.cursor()
     cursor.execute("SELECT * FROM receitas WHERE user_id = %s", (user_id,))
     user_receita = cursor.fetchall()
