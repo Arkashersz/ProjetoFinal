@@ -23,13 +23,14 @@
             <ul id="my-recipes-list">
                 {% for user_receita in receita %}
                     <li>
-                        <a href="{{ url_for('view_recipe', recipe_id=user_receita[0]) }}">{{ user_receita[1] }}</a>
-                        <form method="post" action="{{ url_for('edit_recipe', recipe_id=user_receita[0]) }}" style="display: inline;">
+                        <a href="{{ url_for('view_recipe', post_id=user_receita[4]) }}">{{ user_receita[1] }}</a>
+                        <form method="post" action="{{ url_for('edit_recipe', post_id=user_receita[4]) }}" style="display: inline;">
                             <button type="submit">Editar</button>
                         </form>
-                        <form method="post" action="{{ url_for('delete_recipe', recipe_id=user_receita[0]) }}" style="display: inline;">
+                        <form method="post" action="{{ url_for('delete_recipe', post_id=user_receita[4]) }}" style="display: inline;">
                             <button type="submit">Excluir</button>
                         </form>
+                                                                     
                     </li>
                 {% endfor %}
             </ul>            
