@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minhas Receitas</title>
+    <title>Editar Receita</title>
     <link rel="stylesheet" type="text/css" href="../static/edit_recipe.css">
+    {% set csrf_token = session['_csrf_token'] %}
 </head>
 <body>
     <h2>Editar Receita</h2>
-    <form method="post" action="{{ url_for('edit_recipe', recipe_id=recipe[0]) }}">
-        {{ csrf_token() }}  <!-- Adicione esta linha para incluir o token CSRF -->
+    <form method="post" action="{{ url_for('edit_recipe', post_id=recipe[4]) }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
         
         <label for="new_title">Novo Título:</label>
         <input type="text" id="new_title" name="new_title" value="{{ recipe[1] }}" required>

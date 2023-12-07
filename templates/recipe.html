@@ -20,8 +20,8 @@
         </div>
         {% if is_owner %}
             <div class="recipe-actions">
-                <a href="{{ url_for('edit_recipe', recipe_id=recipe[0]) }}">Editar Receita</a>
-                <a href="{{ url_for('delete_recipe', recipe_id=recipe[0]) }}">Excluir Receita</a>
+                <a href="{{ url_for('edit_recipe', post_id=recipe[4]) }}">Editar Receita</a>
+                <a href="{{ url_for('delete_recipe', post_id=recipe[4]) }}">Excluir Receita</a>
             </div>
         {% endif %}
         <div class="back-link">

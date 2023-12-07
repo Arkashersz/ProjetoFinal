@@ -1,5 +1,3 @@
-from io import BytesIO
-import os
 from flask import Flask, request, render_template, redirect, url_for, flash, session
 import pymysql
 
@@ -10,7 +8,7 @@ app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
 db6_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'alunolab',
+    'password': 'root',
     'database': 'comidaria',
     'port': 3306
 }
@@ -102,13 +100,13 @@ def home(username):
 
     cursor.close()
     
+    
+    
     print(f"Username: {username}")
     print(f"User ID: {user_id}")
     print(f"User Receitas: {user_receita}")
 
-    return render_template('home.html', receita=user_receita, outro_user_receita=outro_user_receita)
-
-
+    return render_template('home.html', receita=user_receita, outro_user_receita=outro_user_receita, is_owner=lambda x: x == user_id)
 
 @app.route('/post_receita', methods=['GET', 'POST'])
 def post_receita():
@@ -116,14 +114,23 @@ def post_receita():
         titulo = request.form['titulo']
         ingredientes = request.form['ingredientes']
         preparo = request.form['preparo']
+        post_id = request.form.get('post_id')
 
         user_id = session.get('user_id')
-        if user_id:
-            cursor = db6.cursor()
+
+        cursor = db6.cursor()
+
+        if post_id:
+            # Atualiza a postagem existente
+            cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s WHERE post_id=%s",
+                           (titulo, ingredientes, preparo, post_id))
+        else:
+            # Insere uma nova postagem
             cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo) VALUES (%s, %s, %s, %s)",
                            (user_id, titulo, ingredientes, preparo))
-            db6.commit()
-            cursor.close()            
+
+        db6.commit()
+        cursor.close()
 
         flash('Receita postada com sucesso!', 'success')
         return redirect(url_for('home', username=session.get('username')))
@@ -131,50 +138,26 @@ def post_receita():
     return render_template('post_receita.html')
 
 
-@app.post("/upload/<nome>/<receita>")
-def upload(nome,receita):
-    foto = request.files['file'].read()
-    f = BytesIO(foto)
-
-    nome_do_arquivo = request.files['file'].filename
-
-    nome_da_receita = receita+'.'+nome_do_arquivo.split(".")[1]
-    tipo_do_arquivo = request.files['file'].content_type
-    PastaExistente = False
-    Obter_Camainho_Relativo = os.path.realpath("./static/upload/") 
-
-    for i in os.listdir(path=Obter_Camainho_Relativo):
-        if(i == nome):
-            PastaExistente = True
-    
-    if(PastaExistente == False):
-        os.mkdir("static/upload/"+nome)
-
-    if(str("image") in tipo_do_arquivo):
-        with open(f"./static/upload/{nome}/{nome_da_receita}",'wb') as f:
-            f.write(foto)
-        return "Arquivo Concluido!"
-    
-    return "Arquivo não suportado"
-
 @app.route('/recipe/<int:post_id>', methods=['GET'])
 def view_recipe(post_id):
     user_id = session.get('user_id')
-    
+
     cursor = db6.cursor()
-    cursor.execute("SELECT * FROM receitas WHERE id = %s", (post_id))
+    cursor.execute("SELECT * FROM receitas WHERE post_id = %s", (post_id,))
     recipe = cursor.fetchone()
     cursor.close()
-    
+
     if recipe:
-        return render_template('recipe.html', recipe=recipe, is_owner=(user_id == recipe[0]))
+        is_owner = (user_id == recipe[0])
+        return render_template('recipe.html', recipe=recipe, is_owner=is_owner)
     else:
         return render_template('erro.html')
+
 
 @app.route('/edit_recipe/<int:post_id>', methods=['GET', 'POST'])
 def edit_recipe(post_id):
     cursor = db6.cursor()
-    cursor.execute("SELECT * FROM receitas WHERE user_id=%s", (post_id,))
+    cursor.execute("SELECT * FROM receitas WHERE post_id=%s", (post_id,))
     recipe = cursor.fetchone()
     cursor.close()
 
@@ -182,10 +165,9 @@ def edit_recipe(post_id):
         titulo = request.form['titulo']
         ingredientes = request.form['ingredientes']
         preparo = request.form['preparo']
-        
 
         cursor = db6.cursor()
-        cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s WHERE user_id=%s",
+        cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s WHERE post_id=%s",
                        (titulo, ingredientes, preparo, post_id))
         db6.commit()
         cursor.close()
@@ -194,6 +176,7 @@ def edit_recipe(post_id):
         return redirect(url_for('home', username=session.get('username')))
 
     return render_template('edit_recipe.html', recipe=recipe)
+
 
 
 @app.route('/delete_recipe/<int:post_id>', methods=['POST'])
