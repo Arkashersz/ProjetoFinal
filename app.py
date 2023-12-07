@@ -8,7 +8,7 @@ app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
 db6_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'root',
+    'password': 'alunolab',
     'database': 'comidaria',
     'port': 3306
 }
@@ -112,12 +112,13 @@ def post_receita():
         titulo = request.form['titulo']
         ingredientes = request.form['ingredientes']
         preparo = request.form['preparo']
+        imagem = request.form['imagem'] 
 
         user_id = session.get('user_id')
         if user_id:
             cursor = db6.cursor()
-            cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo) VALUES (%s, %s, %s, %s)",
-                           (user_id, titulo, ingredientes, preparo))
+            cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo, imagem) VALUES (%s, %s, %s, %s, %s)",
+                           (user_id, titulo, ingredientes, preparo,imagem))
             db6.commit()
             cursor.close()            
 
@@ -131,7 +132,7 @@ def view_recipe(recipe_id):
     user_id = session.get('user_id')
     
     cursor = db6.cursor()
-    cursor.execute("SELECT * FROM receitas WHERE id = %s", (recipe_id,))
+    cursor.execute("SELECT * FROM receitas WHERE user_id = %s", (recipe_id,))
     recipe = cursor.fetchone()
     cursor.close()
     
@@ -151,10 +152,11 @@ def edit_recipe(recipe_id):
         titulo = request.form['titulo']
         ingredientes = request.form['ingredientes']
         preparo = request.form['preparo']
+        imagem = request.form['imagem']
 
         cursor = db6.cursor()
-        cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s WHERE user_id=%s",
-                       (titulo, ingredientes, preparo, recipe_id))
+        cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s, imagem=%s WHERE user_id=%s",
+                       (titulo, ingredientes, preparo, imagem, recipe_id))
         db6.commit()
         cursor.close()
 
@@ -177,3 +179,4 @@ def delete_recipe(recipe_id):
 
 if __name__ == '__main__':
     app.run()
+    
