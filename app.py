@@ -8,7 +8,7 @@ app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
 db6_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'root',
+    'password': 'admin',
     'database': 'comidaria',
     'port': 3306
 }
