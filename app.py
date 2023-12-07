@@ -112,27 +112,27 @@ def post_receita():
         titulo = request.form['titulo']
         ingredientes = request.form['ingredientes']
         preparo = request.form['preparo']
-        imagem = request.form['imagem'] 
 
         user_id = session.get('user_id')
         if user_id:
             cursor = db6.cursor()
-            cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo, imagem) VALUES (%s, %s, %s, %s, %s)",
-                           (user_id, titulo, ingredientes, preparo,imagem))
+            cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo) VALUES (%s, %s, %s, %s)",
+                           (user_id, titulo, ingredientes, preparo))
             db6.commit()
             cursor.close()            
 
-            flash('Receita postada com sucesso!', 'success')
-            return redirect(url_for('home', username=session.get('username')))
+        flash('Receita postada com sucesso!', 'success')
+        return redirect(url_for('home', username=session.get('username')))
 
     return render_template('post_receita.html')
 
-@app.route('/recipe/<int:recipe_id>', methods=['GET'])
-def view_recipe(recipe_id):
+
+@app.route('/recipe/<int:post_id>', methods=['GET'])
+def view_recipe(post_id):
     user_id = session.get('user_id')
     
     cursor = db6.cursor()
-    cursor.execute("SELECT * FROM receitas WHERE user_id = %s", (recipe_id,))
+    cursor.execute("SELECT * FROM receitas WHERE id = %s", (recipe_id,))
     recipe = cursor.fetchone()
     cursor.close()
     
@@ -141,10 +141,10 @@ def view_recipe(recipe_id):
     else:
         return render_template('erro.html')
 
-@app.route('/edit_recipe/<int:recipe_id>', methods=['GET', 'POST'])
-def edit_recipe(recipe_id):
+@app.route('/edit_recipe/<int:post_id>', methods=['GET', 'POST'])
+def edit_recipe(post_id):
     cursor = db6.cursor()
-    cursor.execute("SELECT * FROM receitas WHERE user_id=%s", (recipe_id,))
+    cursor.execute("SELECT * FROM receitas WHERE user_id=%s", (post_id,))
     recipe = cursor.fetchone()
     cursor.close()
 
@@ -155,8 +155,8 @@ def edit_recipe(recipe_id):
         imagem = request.form['imagem']
 
         cursor = db6.cursor()
-        cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s, imagem=%s WHERE user_id=%s",
-                       (titulo, ingredientes, preparo, imagem, recipe_id))
+        cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s WHERE user_id=%s",
+                       (titulo, ingredientes, preparo, recipe_id))
         db6.commit()
         cursor.close()
 
@@ -166,10 +166,11 @@ def edit_recipe(recipe_id):
     return render_template('edit_recipe.html', recipe=recipe)
 
 
-@app.route('/delete_recipe/<int:recipe_id>', methods=['POST'])
-def delete_recipe(recipe_id):
+@app.route('/delete_recipe/<int:post_id>', methods=['POST'])
+def delete_recipe(post_id):
+    print(f"DEBUG: post_id recebido na rota delete_recipe: {post_id}")
     cursor = db6.cursor()
-    cursor.execute("DELETE FROM receitas WHERE user_id=%s", (recipe_id,))
+    cursor.execute("DELETE FROM receitas WHERE post_id=%s", (post_id,))
     db6.commit()
     cursor.close()
 
@@ -177,6 +178,7 @@ def delete_recipe(recipe_id):
     return redirect(url_for('home', username=session.get('username')))
 
 
+
+
 if __name__ == '__main__':
     app.run()
-    
