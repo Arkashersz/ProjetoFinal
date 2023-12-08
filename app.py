@@ -8,7 +8,7 @@ app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
 db6_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'root',
+    'password': 'admin',
     'database': 'comidaria',
     'port': 3306
 }
@@ -162,9 +162,9 @@ def edit_recipe(post_id):
     cursor.close()
 
     if request.method == 'POST':
-        titulo = request.form['titulo']
-        ingredientes = request.form['ingredientes']
-        preparo = request.form['preparo']
+        titulo = request.form['new_title']
+        ingredientes = request.form['new_ingredients']
+        preparo = request.form['new_instructions']
 
         cursor = db6.cursor()
         cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s WHERE post_id=%s",
@@ -176,6 +176,7 @@ def edit_recipe(post_id):
         return redirect(url_for('home', username=session.get('username')))
 
     return render_template('edit_recipe.html', recipe=recipe)
+
 
 
 

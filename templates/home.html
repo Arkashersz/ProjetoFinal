@@ -24,14 +24,6 @@
                 {% for user_receita in receita %}
                     <li>
                         <a href="{{ url_for('view_recipe', post_id=user_receita[4]) }}">{{ user_receita[1] }}</a>
-                        {% if is_owner(user_receita[0]) %}
-                            <form method="post" action="{{ url_for('edit_recipe', post_id=user_receita[4]) }}" style="display: inline;">
-                                <button type="submit">Editar</button>
-                            </form>
-                            <form method="post" action="{{ url_for('delete_recipe', post_id=user_receita[4]) }}" style="display: inline;">
-                                <button type="submit">Excluir</button>
-                            </form>
-                        {% endif %}
                     </li>
                 {% endfor %}
 
