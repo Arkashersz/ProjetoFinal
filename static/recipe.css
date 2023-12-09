@@ -49,94 +49,24 @@ header h1 {
     background-color: #45a049;
 }
 
-.my-recipes,
-.popular-recipes,
-.post-recipe-form {
-    margin-bottom: 30px;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-}
-
-button {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-.header-buttons {
+.recipe-details {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.header-buttons button,
-.header-buttons a {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.header-buttons button:hover,
-.header-buttons a:hover {
-    background-color: #45a049;
-}
-
-.header-buttons {
-    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.header-buttons button {
-    margin-right: auto; /* Move o botão "Postar Nova Receita" para o meio */
+.recipe-details img {
+    max-width: 100%;
+    border-radius: 5px;
+    margin-top: 20px;
 }
 
-form {
-    display: none;
+.recipe-actions {
+    display: flex;
+    margin-top: 20px;
 }
 
-label,
-input,
-textarea {
-    display: block;
-    margin-bottom: 10px;
+.recipe-actions .button-link {
+    margin-right: 10px;
 }
 
-/* styles.css */
-.button-link {
-    display: inline-block;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    background-color: #007BFF; /* Cor de fundo do botão */
-    color: #fff; /* Cor do texto do botão */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.button-link:hover {
-    background-color: #0056b3; /* Cor de fundo do botão ao passar o mouse */
-}

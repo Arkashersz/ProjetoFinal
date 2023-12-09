@@ -15,15 +15,18 @@
         </div>
     </header>
     <div class="container">
-        <form id="recipe-form" method="post" action="{{ url_for('post_receita') }}">
+        <form id="recipe-form" method="post" action="{{ url_for('post_receita') }}" enctype="multipart/form-data">
             <label for="titulo">Título da Receita</label>
             <input type="text" id="titulo" name="titulo" required>
+
+            <label for="imagem">Imagem da Receita</label>
+            <input type="file" id="imagem" name="imagem" accept="image/*">
             
             <label for="ingredientes">Ingredientes</label>
             <textarea id="ingredientes" name="ingredientes" rows="8" required></textarea>
             
             <label for="preparo">Como Preparar</label>
-            <textarea id="preparo" name="preparo" rows="20" required></textarea>
+            <textarea id="preparo" name="preparo" rows="20" required></textarea>            
             
             <button type="submit">Publicar Receita</button>
         </form>

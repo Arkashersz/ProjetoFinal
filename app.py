@@ -1,8 +1,18 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, session
+from flask import Flask, send_from_directory, request, render_template, redirect, url_for, flash, session
 import pymysql
+import os
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
+
+UPLOAD_FOLDER = 'static/upload'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 # Configurações do banco de dados
 db6_config = {
@@ -13,9 +23,10 @@ db6_config = {
     'port': 3306
 }
 
-
-
 db6 = pymysql.connect(**db6_config)
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def verificar_user(username):
     cursor = db6.cursor()
@@ -90,23 +101,48 @@ def home(username):
     user_id = session.get('user_id')    
     
     cursor = db6.cursor()
-    # Select para ver as receitas do usuário que está logado
-    cursor.execute("SELECT * FROM receitas WHERE user_id = %s", (user_id,))
+    cursor.execute("SELECT post_id, titulo, ingredientes, preparo, imagem FROM receitas WHERE user_id = %s", (user_id,))
     user_receita = cursor.fetchall()
 
-    # Select para ver as receitas de outros usuários da Comidaria
-    cursor.execute("SELECT * FROM receitas WHERE user_id != %s", (user_id,))
+    cursor.execute("SELECT post_id, titulo, ingredientes, preparo, imagem FROM receitas WHERE user_id != %s", (user_id,))
     outro_user_receita = cursor.fetchall()
 
     cursor.close()
     
-    
-    
-    print(f"Username: {username}")
-    print(f"User ID: {user_id}")
-    print(f"User Receitas: {user_receita}")
+    return render_template('home.html', receita=user_receita, outro_user_receita=outro_user_receita, is_owner=lambda x: x[0] == user_id, os=os)
 
-    return render_template('home.html', receita=user_receita, outro_user_receita=outro_user_receita, is_owner=lambda x: x == user_id)
+@app.route('/upload_image/<int:post_id>', methods=['POST'])
+def upload_image(post_id):
+    if 'file' not in request.files:
+        flash('Nenhum arquivo enviado')
+        return redirect(request.url)
+
+    file = request.files['file']
+
+    if file.filename == '':
+        flash('Nenhum arquivo selecionado')
+        return redirect(request.url)
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+
+        # Atualize a receita no banco de dados com o caminho da imagem
+        cursor = db6.cursor()
+        cursor.execute("UPDATE receitas SET imagem=%s WHERE post_id=%s", (filepath, post_id))
+        db6.commit()
+        cursor.close()
+
+        flash('Imagem enviada com sucesso!', 'success')
+    else:
+        flash('Extensão de arquivo não permitida', 'danger')
+
+    return redirect(url_for('view_recipe', post_id=post_id))
+
+@app.route('/uploads/<filename>')
+def download_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/post_receita', methods=['GET', 'POST'])
 def post_receita():
@@ -114,19 +150,22 @@ def post_receita():
         titulo = request.form['titulo']
         ingredientes = request.form['ingredientes']
         preparo = request.form['preparo']
-        post_id = request.form.get('post_id')
+        imagem = request.files['imagem']
 
         user_id = session.get('user_id')
 
         cursor = db6.cursor()
 
-        if post_id:
-            # Atualiza a postagem existente
-            cursor.execute("UPDATE receitas SET titulo=%s, ingredientes=%s, preparo=%s WHERE post_id=%s",
-                           (titulo, ingredientes, preparo, post_id))
+        if imagem and allowed_file(imagem.filename):
+            filename = secure_filename(imagem.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            imagem.save(filepath)
+
+            cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo, imagem) VALUES (%s, %s, %s, %s, %s)",
+                           (user_id, titulo, ingredientes, preparo, filename))
         else:
-            # Insere uma nova postagem
-            cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo) VALUES (%s, %s, %s, %s)",
+            # Forneça um valor padrão (pode ser NULL) para o campo imagem
+            cursor.execute("INSERT INTO receitas (user_id, titulo, ingredientes, preparo, imagem) VALUES (%s, %s, %s, %s, NULL)",
                            (user_id, titulo, ingredientes, preparo))
 
         db6.commit()
@@ -140,10 +179,13 @@ def post_receita():
 
 @app.route('/recipe/<int:post_id>', methods=['GET'])
 def view_recipe(post_id):
-    user_id = session.get('user_id')
+    if 'user_id' not in session:
+        return render_template('erro.html')
+
+    user_id = session['user_id']
 
     cursor = db6.cursor()
-    cursor.execute("SELECT * FROM receitas WHERE post_id = %s", (post_id,))
+    cursor.execute("SELECT post_id, titulo, ingredientes, preparo, imagem FROM receitas WHERE post_id = %s", (post_id,))
     recipe = cursor.fetchone()
     cursor.close()
 

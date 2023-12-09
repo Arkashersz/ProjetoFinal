@@ -14,8 +14,13 @@ CREATE TABLE receitas (
     preparo TEXT NOT NULL,
     post_id INT NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (post_id),
+    imagem MEDIUMBLOB,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+ALTER TABLE receitas
+MODIFY COLUMN imagem MEDIUMBLOB DEFAULT NULL;
+
 
 SELECT * FROM receitas
 

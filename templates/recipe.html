@@ -1,4 +1,7 @@
-<!-- recipe.html -->
+{% if os is not defined %}
+    {% set os = None %}
+{% endif %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,19 +16,20 @@
     </header>
     <div class="container">
         <div class="recipe-details">
+            {% if is_owner %}
+            <div class="recipe-actions">
+                <a href="{{ url_for('edit_recipe', post_id=recipe[0]) }}" class="button-link">Editar</a>
+                <a href="{{ url_for('delete_recipe', post_id=recipe[0]) }}" class="button-link">Excluir</a>
+                <a href="{{ url_for('home', username=session.get('username')) }}" class="button-link">Voltar</a>
+            </div>
+            {% endif %}
             <h2>Detalhes da Receita</h2>
             <p>Título: {{ recipe[1] }}</p>
             <p>Ingredientes: {{ recipe[2] }}</p>
             <p>Preparo: {{ recipe[3] }}</p>
-        </div>
-        {% if is_owner %}
-        <div class="recipe-actions">
-            <a href="{{ url_for('edit_recipe', post_id=recipe[4]) }}" class="button-link">Editar</a>
-            <a href="{{ url_for('delete_recipe', post_id=recipe[4]) }}" class="button-link">Excluir</a>
-        </div>
-        {% endif %}
-        <div class="back-link">
-            <a href="{{ url_for('home', username=session.get('username')) }}" class="button-link">Voltar</a>
+            {% if recipe[4] and os %}
+                <img src="{{ url_for('download_file', filename=os.path.basename(recipe[4])) }}" alt="Imagem da receita">
+            {% endif %}
         </div>
     </div>
 </body>

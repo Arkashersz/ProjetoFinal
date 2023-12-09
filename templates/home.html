@@ -1,12 +1,13 @@
-<!-- home.html -->
+{% set os = namespace(os=os) %}
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Minhas Receitas</title>
-        <link rel="stylesheet" type="text/css" href="../static/home.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Receitas</title>
+    <link rel="stylesheet" type="text/css" href="../static/home.css">
+</head>
 <body>
     <header>
         <h1>Minhas Receitas</h1>
@@ -23,20 +24,26 @@
             <ul id="my-recipes-list">
                 {% for user_receita in receita %}
                     <li>
-                        <a href="{{ url_for('view_recipe', post_id=user_receita[4]) }}">{{ user_receita[1] }}</a>
+                        <a href="{{ url_for('view_recipe', post_id=user_receita[0]) }}">{{ user_receita[1] }}</a>
+                        {% if user_receita[4] %}
+                            {% set image_filename = os.path.basename(user_receita[5]) if user_receita[5] else '' %}
+                            <img src="{{ url_for('download_file', filename=image_filename) }}" alt="Imagem da receita">
+                        {% endif %}
+
                     </li>
                 {% endfor %}
-
-
             </ul>
-            
         </div>
-            
         <div class="popular-recipes">
             <h2>Receitas dos Outros Usuários</h2>
             <ul id="popular-recipes-list">
                 {% for receita in outro_user_receita %}
-                    <li><a href="{{ url_for('view_recipe', post_id=receita[4]) }}">{{ receita[1] }}</a></li>
+                    <li>
+                        <a href="{{ url_for('view_recipe', post_id=receita[0]) }}">{{ receita[1] }}</a>
+                        {% if receita[4] %}
+                            <img src="{{ url_for('download_file', filename=os.path.basename(receita[5])) }}" alt="Imagem da receita">
+                        {% endif %}
+                    </li>
                 {% endfor %}
             </ul>
         </div>
@@ -44,5 +51,3 @@
     <script src="/static/login.js" type="module"></script>
 </body>
 </html>
-
-
