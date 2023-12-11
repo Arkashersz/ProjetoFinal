@@ -55,6 +55,61 @@ header h1 {
     margin-bottom: 30px;
 }
 
+/* Add styles for flash messages */
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.flash {
+    list-style: none;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.flash li {
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Styles for different message types */
+.flash-success {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.flash-error {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.flash-warning {
+    background-color: #f39c12;
+    color: #fff;
+}
+
+.flash-info {
+    background-color: #3498db;
+    color: #fff;
+}
+
+
+#my-recipes-list li a,
+#popular-recipes-list li a {
+    text-decoration: none;
+    color: #2c3e50; /* Altere para a cor desejada, por exemplo, um preto mais escuro */
+    font-size: 18px; /* Altere para o tamanho de fonte desejado */
+    font-weight: bold; /* Adiciona negrito */
+    cursor: pointer; /* Adiciona o cursor pointer para indicar que é clicável */
+    display: inline-block; /* Para permitir a aplicação do tamanho e cor */
+}
+
+#my-recipes-list li a:hover,
+#popular-recipes-list li a:hover {
+    color: #34495e; /* Altere para a cor desejada ao passar o mouse */
+}
+
 ul {
     list-style: none;
     padding: 0;

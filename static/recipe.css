@@ -26,117 +26,37 @@ header h1 {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Adiciona posição relativa para posicionar os botões absolutamente */
 }
 
-.user-actions {
+.recipe-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
-.user-actions button {
-    background-color: #4CAF50;
+.recipe-actions a,
+.recipe-actions button {
+    background-color: #333;
     color: #fff;
     padding: 10px;
+    margin-right: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-decoration: none; /* Remova o sublinhado padrão de links */
-}
-
-.user-actions button:hover {
-    background-color: #45a049;
-}
-
-.my-recipes,
-.popular-recipes,
-.post-recipe-form {
-    margin-bottom: 30px;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
-}
-
-button {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-.header-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.header-buttons button,
-.header-buttons a {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
     text-decoration: none;
-    cursor: pointer;
+    width: 80px; /* Defina a largura desejada para todos os botões */
+    text-align: center; /* Centralize o texto dentro do botão */
 }
 
-.header-buttons button:hover,
-.header-buttons a:hover {
-    background-color: #45a049;
+.recipe-actions a:hover,
+.recipe-actions button:hover {
+    background-color: #555;
 }
 
-.header-buttons {
-    display: flex;
-    align-items: center;
-}
-
-.header-buttons button {
-    margin-right: auto; /* Move o botão "Postar Nova Receita" para o meio */
-}
-
-form {
-    display: none;
-}
-
-label,
-input,
-textarea {
-    display: block;
-    margin-bottom: 10px;
-}
-
-/* styles.css */
-.button-link {
-    display: inline-block;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    background-color: #007BFF; /* Cor de fundo do botão */
-    color: #fff; /* Cor do texto do botão */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.button-link:hover {
-    background-color: #0056b3; /* Cor de fundo do botão ao passar o mouse */
+/* Adiciona estilo ao botão dentro do formulário */
+.recipe-actions form button {
+    width: 80px;
 }
