@@ -8,7 +8,7 @@ app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
 db6_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'admin',
+    'password': 'root',
     'database': 'comidaria',
     'port': 3306
 }
@@ -106,7 +106,8 @@ def home(username):
     print(f"User ID: {user_id}")
     print(f"User Receitas: {user_receita}")
 
-    return render_template('home.html', receita=user_receita, outro_user_receita=outro_user_receita, is_owner=lambda x: x == user_id)
+    return render_template('home.html', receita=user_receita, outro_user_receita=outro_user_receita, is_owner=lambda x: x == session.get('username'))
+
 
 @app.route('/post_receita', methods=['GET', 'POST'])
 def post_receita():

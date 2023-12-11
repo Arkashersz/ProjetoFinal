@@ -23,10 +23,10 @@ header h1 {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative; /* Adiciona posição relativa para posicionar os botões absolutamente */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .recipe-actions {
@@ -35,6 +35,7 @@ header h1 {
     right: 10px;
     display: flex;
     align-items: center;
+    z-index: 1;
 }
 
 .recipe-actions a,
@@ -42,13 +43,10 @@ header h1 {
     background-color: #333;
     color: #fff;
     padding: 10px;
-    margin-right: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
-    width: 80px; /* Defina a largura desejada para todos os botões */
-    text-align: center; /* Centralize o texto dentro do botão */
 }
 
 .recipe-actions a:hover,
@@ -56,7 +54,54 @@ header h1 {
     background-color: #555;
 }
 
-/* Adiciona estilo ao botão dentro do formulário */
 .recipe-actions form button {
     width: 80px;
+}
+
+.recipe-details {
+    overflow: hidden;
+    word-wrap: break-word;
+    background: linear-gradient(to right, #e0e0e0, #ffffff);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-details h2 {
+    color: #333;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.recipe-details p {
+    margin: 10px 0;
+    color: #555;
+}
+
+.recipe-details h2.title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+}
+
+.recipe-details p.ingredients,
+.recipe-details p.preparation {
+    font-size: 1.9em;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+}
+
+.recipe-details div.ingredientsp,
+.recipe-details div.preparationp {
+    font-size: 1.2em;
+    color: #333;
+    white-space: pre-line;
+}
+
+.recipe-details {
+    background: linear-gradient(to right, #e0e0e0, #c5c5c5);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
