@@ -59,6 +59,7 @@ header h1 {
 }
 
 .recipe-details {
+    width: 600px;
     overflow: hidden;
     word-wrap: break-word;
     background: linear-gradient(to right, #e0e0e0, #ffffff);

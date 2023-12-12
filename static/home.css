@@ -145,18 +145,18 @@ button:hover {
 
 .header-buttons button,
 .header-buttons a {
-    background-color: #4caf50;
-    color: white;
+    background-color: #333;
+    color: #fff;
     padding: 10px;
     border: none;
-    border-radius: 4px;
-    text-decoration: none;
+    border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .header-buttons button:hover,
 .header-buttons a:hover {
-    background-color: #45a049;
+    background-color: #555;
 }
 
 .header-buttons {

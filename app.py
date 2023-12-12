@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, session
 import pymysql
+import re
 
 app = Flask(__name__)
 app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
@@ -8,7 +9,7 @@ app.secret_key = 'w6q&uUp0MBhst.hVvf|!jgh9Z?/mTZ3d'
 db6_config = {
     'host': '127.0.0.1',
     'user': 'root',
-    'password': 'root',
+    'password': 'admin',
     'database': 'comidaria',
     'port': 3306
 }
@@ -24,7 +25,15 @@ def verificar_user(username):
     cursor.close()
     return user is not None
 
+def is_valid_email(email):
+    # Utiliza uma expressão regular para validar o formato do e-mail
+    pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    return re.match(pattern, email)
+
 def verificar_email(email):
+    if not is_valid_email(email):
+        return False  # Se o formato do e-mail não for válido, retorna False
+
     cursor = db6.cursor()
     cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
     user = cursor.fetchone()
