@@ -1,3 +1,4 @@
+-- Active: 1701346772593@@127.0.0.1@3306@comidaria
 
 USE comidaria;
 CREATE TABLE users (
