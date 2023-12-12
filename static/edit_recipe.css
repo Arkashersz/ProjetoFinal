@@ -1,5 +1,3 @@
-/* Adicione este conteúdo no arquivo edit_recipe.css */
-
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -10,8 +8,41 @@ body {
     background-repeat: no-repeat;
 }
 
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 10px; /* Adiciona um espaço entre os botões */
+}
+
+.button:hover {
+    background-color: #555;
+}
+
 form {
-    max-width: 800px; /* Ajuste o valor conforme necessário */
+    max-width: 800px;
     margin: 20px auto;
     background-color: #d8d5d5;
     padding: 20px;
@@ -39,7 +70,7 @@ textarea {
 }
 
 button {
-    background-color: #4caf50;
+    background-color: #333;
     color: white;
     padding: 10px;
     border: none;
@@ -54,5 +85,5 @@ button a {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #414141;
 }
