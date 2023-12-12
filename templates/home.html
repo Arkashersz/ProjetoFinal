@@ -12,13 +12,13 @@
     </header>
     <div class="container">
         <div class="header-buttons">
-            <button id="post-recipe-btn">
-                <a href="{{ url_for('post_receita') }}">Postar Nova Receita</a>
+            <button id="post-recipe-btn" >
+                <a href="{{ url_for('post_receita') }}" class="button-link">Postar Nova Receita</a>
             </button>
-            <a href="#" id="logout">Sair da conta</a>
+            <a href="#" id="logout" class="button-link">Sair da conta</a>
         </div>
 
-        <!-- Adicione esta parte para exibir mensagens flash -->
+        
         <div class="flash-messages">
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
