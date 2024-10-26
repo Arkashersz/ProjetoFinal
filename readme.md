@@ -26,7 +26,7 @@ Líder: Mateus H
 Design | Front: Vinicius, Mateus, Jonathan
 Banco de dados: Christino
 
-Back-end: Daniel, Douglas, Jonathan, Mateus, Thalles
+Back-end: Daniel, Douglas, Jonathan, Mateus, Thalles, Marllon.
 
 
 
